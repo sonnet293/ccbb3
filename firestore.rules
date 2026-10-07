@@ -28,6 +28,24 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // 캐릭터 (카드 목록 + 세부 페이지)
+    match /characters/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+
+      // 스토리 챕터
+      match /chapters/{chapterId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+
+      // 메모
+      match /memos/{memoId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+    }
+
     // 플레이리스트
     match /tracks/{id} {
       allow read: if true;

@@ -1,0 +1,95 @@
+/* ===== 서브 페이지 공통: 본문 틀 · 이미지 자리 · 직접 수정 칸 ===== */
+
+/* .home과 같은 흐름(상단 여백·gap)이라 뮤직플레이어가 메인 페이지와 같은 자리에 옴 */
+.page {
+    --page-top: 80px;
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    width: min(calc(var(--board-w) + var(--gutter) * 2), 100%);
+    margin: var(--page-top) auto 0;
+    padding: 0 var(--gutter) 40px;
+}
+
+/* 본문 높이 = 메인의 타이틀(66) + 여백(18 + gap 18) + 보드 높이
+   보드 높이는 메인 이미지(810:429)와 오른쪽 열(배너 2개 + 간격 + 달력 최소 높이) 중 큰 쪽
+   --page-top을 줄인 페이지는 줄인 만큼 본문을 늘려서 플레이어 위치를 유지 */
+.page-body {
+    --stage-w: min(var(--board-w), 100cqw);
+    --cal-min: 252px;
+    width: min(var(--board-w), 100%);
+    min-height: calc(102px + 80px - var(--page-top) + max((var(--stage-w) - 15px) * 429 / 1186, (var(--stage-w) - 15px) * 71 / 593 + 18px + var(--cal-min)));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 이미지 자리 공통 (js/characters.js의 [data-image]) */
+.img-slot {
+    position: relative;
+    overflow: hidden;
+    background: rgba(217, 229, 247, .45);
+}
+
+.img-slot img {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-slot.has-image img { display: block; }
+.img-slot.has-image .img-empty { display: none; }
+
+.img-empty {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--sky-deep);
+    pointer-events: none;
+}
+
+.img-slot:hover .admin-tools { opacity: 1; }
+.img-slot .admin-tools { z-index: 2; }
+
+/* 직접 수정 가능한 칸 (관리자) */
+[data-field] { white-space: pre-wrap; overflow-wrap: anywhere; }
+[contenteditable] { outline: none; cursor: text; border-radius: 3px; }
+[contenteditable]:hover { background: rgba(217, 229, 247, .35); }
+[contenteditable]:focus { background: rgba(217, 229, 247, .55); }
+[contenteditable]:empty::before {
+    content: attr(data-placeholder);
+    color: var(--sky-deep);
+}
+
+.page-empty {
+    padding: 80px 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.page-empty,
+.page > section,
+.page-body > section { animation: fade-up var(--enter-dur) var(--ease-out) .3s backwards; }
+
+@media (max-width: 1100px) {
+    .page-body { --cal-min: 244px; }
+}
+
+@media (max-width: 900px) {
+    /* 메인 보드가 세로로 쌓이는 구간에선 높이 맞춤 해제 */
+    .page-body { min-height: 0; }
+}
+
+@media (max-width: 760px) {
+    .page { margin-top: 20px; }
+}

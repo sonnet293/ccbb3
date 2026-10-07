@@ -198,6 +198,44 @@ audio.addEventListener("error", () => {
   toast("음악을 재생할 수 없습니다.");
 });
 
+// ----- 페이지 이동 시 이어 듣기 -----
+// 페이지를 떠날 때 곡·위치·재생 여부를 sessionStorage에 저장했다가, 다음 페이지에서 이어서 재생합니다.
+// 브라우저가 자동재생을 막으면 페이지를 처음 클릭(또는 키 입력)할 때 이어집니다.
+const STATE_KEY = "ccbb-player";
+let restoreState = null;
+try {
+  restoreState = JSON.parse(sessionStorage.getItem(STATE_KEY));
+} catch {}
+
+addEventListener("pagehide", () => {
+  try {
+    if (!currentId) return sessionStorage.removeItem(STATE_KEY);
+    sessionStorage.setItem(STATE_KEY, JSON.stringify({ id: currentId, time: audio.currentTime, playing: !audio.paused }));
+  } catch {}
+});
+
+function restore() {
+  const state = restoreState;
+  restoreState = null;
+  const track = tracks.find((t) => t.id === state.id);
+  if (!track || currentId) return;
+
+  load(track, false);
+  audio.addEventListener("loadedmetadata", () => (audio.currentTime = state.time || 0), { once: true });
+  if (!state.playing) return;
+
+  audio.play().catch(() => {
+    const resume = (e) => {
+      document.removeEventListener("pointerdown", resume, true);
+      document.removeEventListener("keydown", resume, true);
+      if (e.composedPath().includes(player)) return; // 플레이어를 직접 누른 경우는 그 동작에 맡김
+      audio.play().catch(() => {});
+    };
+    document.addEventListener("pointerdown", resume, true);
+    document.addEventListener("keydown", resume, true);
+  });
+}
+
 // ----- 데이터 -----
 onSnapshot(
   query(collection(db, "tracks"), orderBy("createdAt")),
@@ -206,6 +244,7 @@ onSnapshot(
     if (currentId && currentIndex() === -1) resetPlayer();
     if (!currentId) titleEl.textContent = tracks.length ? "재생 버튼을 눌러주세요" : "재생할 음악이 없습니다";
     renderList();
+    if (restoreState) restore();
     playPending();
   },
   (err) => console.error("플레이리스트 불러오기 실패:", err)
