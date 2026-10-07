@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시시비비</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/main.js"></script>
+</head>
+<body>
+
+    <!--배경은 img/background.png-->
+
+    <!--상단에 네비게이션바, 캐릭터, 세계관, 관계란, 아카이브, 기타-->
+    <!--네비게이션바에 마우스를 올리면 글자색 전환(#000 -> #D9E5F7)-->
+    <header class="site-header">
+        <nav class="gnb">
+            <div class="gnb-item">
+                <a href="character.html">캐릭터</a>
+                <div class="gnb-sub">
+                    <a href="original.html">ORIGINAL</a>
+                    <a href="au.html">AU · TRPG</a>
+                </div>
+            </div>
+            <a href="universe.html">세계관</a>
+            <a href="relationship.html">관계란</a>
+            <a href="archive.html">아카이브</a>
+            <a href="other.html">기타</a>
+        </nav>
+        <button type="button" class="login-btn" id="loginBtn">로그인</button>
+    </header>
+
+    <main class="home">
+
+        <!--네비게이션바 바로 아래에 SVG 아이콘 누르면 방명록 팝업 뜨게-->
+        <button type="button" class="gb-btn" id="guestbookBtn" aria-label="방명록 열기" title="방명록">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+                <path d="M0 0h16v16H0z" fill="none" />
+                <path fill="#d9e5f7" d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234c-.2.032-.352-.176-.273-.362c.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0a1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0a1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2a1 1 0 0 0 0 2" />
+            </svg>
+        </button>
+
+        <!--네비게이션바 아래에 문구-->
+        <div class="title">
+            <h2>시시비비</h2>
+            <div class="subtitle">
+                <span>時視庇比</span>
+                <span>서로의 때를 보고, 감싸며, 끝내 나란히 서라</span> <!--h2 높이에 맞춰서 subtitle은 두 줄로-->
+            </div>
+        </div>
+
+        <!--전체 박스 크기 1201*429-->
+        <section class="board">
+
+            <!--박스의 좌측 810*429는 메인 사진 파일 넣는 곳-->
+            <div class="slot slot-main" data-slot="main">
+                <img alt="메인 이미지">
+                <span class="slot-empty">MAIN IMAGE · 810 × 429</span>
+                <div class="admin-tools">
+                    <button type="button" data-action="image">이미지 변경</button>
+                </div>
+            </div>
+
+            <div class="board-side">
+                <!--박스의 우측 상단부터 376*71, 376*71(column)은 배너 넣는 곳-->
+                <div class="slot slot-banner" data-slot="banner1">
+                    <a target="_blank" rel="noopener"><img alt="배너 1"></a>
+                    <span class="slot-empty">BANNER · 376 × 71</span>
+                    <div class="admin-tools">
+                        <button type="button" data-action="image">이미지</button>
+                        <button type="button" data-action="link">링크</button>
+                    </div>
+                </div>
+                <div class="slot slot-banner" data-slot="banner2">
+                    <a target="_blank" rel="noopener"><img alt="배너 2"></a>
+                    <span class="slot-empty">BANNER · 376 × 71</span>
+                    <div class="admin-tools">
+                        <button type="button" data-action="image">이미지</button>
+                        <button type="button" data-action="link">링크</button>
+                    </div>
+                </div>
+
+                <!--박스의 우측 하단 376*269는 달력 넣는 곳 -->
+                <div class="calendar" id="calendar"></div>
+            </div>
+        </section>
+
+        <!--최하단 550*38은 음악 플레이어(파일을 올리면 음악이 재생되게)-->
+        <div class="player" id="player">
+            <button type="button" class="pl-btn" data-pl="prev" aria-label="이전 곡">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3h1.6v10H3zM13 3.2v9.6L5.8 8z"/></svg>
+            </button>
+            <button type="button" class="pl-btn pl-play" data-pl="toggle" aria-label="재생">
+                <svg class="ic-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.5v11L13 8z"/></svg>
+                <svg class="ic-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z"/></svg>
+            </button>
+            <button type="button" class="pl-btn" data-pl="next" aria-label="다음 곡">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.4 3H13v10h-1.6zM3 3.2v9.6L10.2 8z"/></svg>
+            </button>
+            <div class="pl-title"><span id="plTitle">재생할 음악이 없습니다</span></div>
+            <div class="pl-progress" id="plProgress"><div class="pl-bar" id="plBar"></div></div>
+            <span class="pl-time" id="plTime">0:00</span>
+            <button type="button" class="pl-btn" data-pl="list" aria-label="플레이리스트">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3.5h9V5H2zM2 7.25h9v1.5H2zM2 11h6v1.5H2zM12 9.2V2.5h1.5v1.6h1.5v1.5h-1.5v6.1a1.9 1.9 0 1 1-1.5-1.86z"/></svg>
+            </button>
+
+            <div class="pl-panel" id="plPanel" hidden>
+                <div class="pl-panel-head">
+                    <strong>플레이리스트</strong>
+                    <button type="button" class="chip admin-only" id="plUpload">+ 음악 추가</button>
+                </div>
+                <ol class="pl-list" id="plList"></ol>
+            </div>
+            <audio id="plAudio" preload="metadata"></audio>
+        </div>
+
+    </main>
+
+    <!-- 방명록 팝업 -->
+    <dialog class="modal modal-wide" id="guestbookModal">
+        <div class="modal-body">
+            <header class="modal-head">
+                <h3>방명록</h3>
+                <button type="button" class="icon-btn" data-close aria-label="닫기">×</button>
+            </header>
+            <form class="gb-form" id="gbForm">
+                <input name="name" maxlength="20" placeholder="이름" required autocomplete="nickname">
+                <textarea name="message" maxlength="500" rows="3" placeholder="남기고 싶은 말을 적어주세요" required></textarea>
+                <div class="gb-form-foot">
+                    <span class="gb-count" id="gbCount">0 / 500</span>
+                    <button type="submit" class="primary">남기기</button>
+                </div>
+            </form>
+            <ul class="gb-list" id="gbList"></ul>
+        </div>
+    </dialog>
+
+    <!-- 달력 날짜 팝업 -->
+    <dialog class="modal" id="dayModal">
+        <div class="modal-body">
+            <header class="modal-head">
+                <h3 id="dayTitle"></h3>
+                <button type="button" class="icon-btn" data-close aria-label="닫기">×</button>
+            </header>
+            <ul class="event-list" id="eventList"></ul>
+            <form class="event-form admin-only" id="eventForm">
+                <input name="title" maxlength="60" placeholder="일정 추가" required>
+                <button type="submit" class="primary">추가</button>
+            </form>
+        </div>
+    </dialog>
+
+</body>
+</html>
