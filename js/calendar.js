@@ -20,6 +20,8 @@ const eventList = document.getElementById("eventList");
 const eventForm = document.getElementById("eventForm");
 
 const WEEK = ["일", "월", "화", "수", "목", "금", "토"];
+const WEEK_EN = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const view = new Date();
 view.setDate(1);
 
@@ -66,11 +68,20 @@ function render() {
     h(
       "div",
       { class: "cal-head" },
-      h("button", { type: "button", class: "cal-nav", "aria-label": "이전 달", onclick: () => move(-1) }, "‹"),
-      h("strong", {}, `${year}. ${pad(month + 1)}`),
-      h("button", { type: "button", class: "cal-nav", "aria-label": "다음 달", onclick: () => move(1) }, "›")
+      h(
+        "div",
+        { class: "cal-month", title: `${year}년 ${month + 1}월` },
+        h("strong", {}, month + 1),
+        h("span", {}, MONTHS[month])
+      ),
+      h(
+        "div",
+        { class: "cal-navs" },
+        h("button", { type: "button", class: "cal-nav", "aria-label": "이전 달", onclick: () => move(-1) }, "‹"),
+        h("button", { type: "button", class: "cal-nav", "aria-label": "다음 달", onclick: () => move(1) }, "›")
+      )
     ),
-    h("div", { class: "cal-week" }, WEEK.map((w) => h("span", {}, w))),
+    h("div", { class: "cal-week" }, WEEK_EN.map((w) => h("span", {}, w))),
     h("div", { class: "cal-days" }, days)
   );
 }

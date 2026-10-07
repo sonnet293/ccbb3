@@ -319,16 +319,31 @@ body.is-admin .login-btn { color: var(--sky-ink); border-color: var(--line); }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 24px;
+    height: 30px;
     margin-bottom: 4px;
+    padding: 0 4px;
 }
 
-.cal-head strong {
-    font-family: var(--serif);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .06em;
+.cal-month {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
 }
+
+.cal-month strong {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.cal-month span {
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: var(--muted);
+}
+
+.cal-navs { display: flex; gap: 2px; }
 
 .cal-nav {
     width: 24px;
@@ -350,10 +365,15 @@ body.is-admin .login-btn { color: var(--sky-ink); border-color: var(--line); }
 
 .cal-week span {
     text-align: center;
-    font-size: 10px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .08em;
     line-height: 18px;
     color: var(--muted);
 }
+
+.cal-week span:first-child { color: var(--sun); }
+.cal-week span:last-child { color: var(--sat); }
 
 .cal-days {
     flex: 1;
