@@ -122,15 +122,15 @@ form.message.addEventListener("input", () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = form.name.value.trim();
+  const name = form.name.value.trim() || "익명";
   const message = form.message.value.trim();
-  if (!name || !message) return;
+  if (!message) return;
   const submit = form.querySelector('[type="submit"]');
   submit.disabled = true;
   try {
     await addDoc(collection(db, "guestbook"), { name, message, createdAt: serverTimestamp() });
     try {
-      localStorage.setItem(NAME_KEY, name);
+      localStorage.setItem(NAME_KEY, form.name.value.trim());
     } catch {}
     form.message.value = "";
     count.textContent = "0 / 500";

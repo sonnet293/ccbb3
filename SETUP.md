@@ -13,14 +13,14 @@ Supabase는 Firebase 로그인 토큰을 그대로 인정하도록 연결합니�
 ### 1-1. 이메일 로그인 켜기
 1. [Firebase 콘솔](https://console.firebase.google.com) → `ccbb-6cde8` 프로젝트
 2. **Authentication → Sign-in method → 이메일/비밀번호** 사용 설정
-3. **Authentication → Users → 사용자 추가** 로 관리자 이메일/비밀번호 생성
-4. 생성된 사용자의 **사용자 UID** 를 복사해 둡니다 (아래에서 두 번 사용)
+3. **Authentication → Users → 사용자 추가** 로 관리자 계정을 사람 수만큼 생성 (최대 5명 기준)
+4. 각 사용자의 **사용자 UID** 를 복사해 둡니다 (firestore.rules 와 setup.sql 두 곳의 목록에 넣음)
 5. (권장) **Authentication → Settings → 사용자 작업(User actions)** 에서 *생성(가입) 사용* 체크 해제
    → 사이트에 회원가입이 없어도 API로 가입하는 것을 막습니다.
 
 ### 1-2. Firestore
 1. **Firestore Database → 데이터베이스 만들기** (위치는 `asia-northeast3 (서울)` 추천, 프로덕션 모드)
-2. **규칙** 탭에 [firestore.rules](firestore.rules) 내용을 붙여넣고 `ADMIN_UID` 를 복사한 UID로 바꾼 뒤 **게시**
+2. **규칙** 탭에 [firestore.rules](firestore.rules) 내용을 붙여넣고 관리자 UID 목록을 채운 뒤 **게시**
 
 ---
 
@@ -47,7 +47,7 @@ Supabase는 Firebase 로그인 토큰을 그대로 인정하도록 연결합니�
 
 ### 2-4. 버킷과 권한 만들기
 1. **SQL Editor → New query**
-2. [supabase/setup.sql](supabase/setup.sql) 내용을 붙여넣고 `ADMIN_UID` 를 Firebase UID로 바꾼 뒤 **Run**
+2. [supabase/setup.sql](supabase/setup.sql) 내용을 붙여넣고 관리자 UID 목록을 채운 뒤 **Run**
 3. **Storage** 메뉴에 `ccbb` 버킷(Public)이 생겼는지 확인
 
 ---
@@ -74,6 +74,15 @@ Firebase 콘솔 **Authentication → Settings → 승인된 도메인** 에 배�
 | 음악 플레이어 | 재생/이전/다음, 목록에서 선택 | 목록 버튼 → `+ 음악 추가` (업로드하면 바로 재생), 삭제 |
 
 로그인 버튼은 네비게이션바 오른쪽 끝의 작은 `로그인` 입니다.
+
+## 관리자 추가 / 제거
+
+1. Firebase 콘솔 **Authentication → Users** 에서 계정 추가(또는 삭제)하고 UID 복사
+2. [firestore.rules](firestore.rules) 목록 수정 → Firebase 콘솔 Firestore **규칙** 탭에 붙여넣고 **게시**
+3. [supabase/setup.sql](supabase/setup.sql) 목록 수정 → Supabase **SQL Editor** 에서 다시 **Run**
+
+두 곳 중 한 곳만 바꾸면 "글/일정은 되는데 사진 업로드만 안 됨" 같은 상태가 됩니다.
+남는 `ADMIN_UID_n` 자리는 그대로 두거나 지워도 됩니다(어떤 실제 UID와도 일치하지 않음).
 
 ## 데이터 구조 (참고)
 

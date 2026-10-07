@@ -1,12 +1,19 @@
 rules_version = '2';
 
 // Firebase 콘솔 → Firestore Database → 규칙(Rules) 탭에 붙여넣고 "게시" 하세요.
-// ADMIN_UID 를 Firebase 콘솔 → Authentication → Users 의 관리자 "사용자 UID" 로 바꿔주세요.
+// 관리자 목록: Firebase 콘솔 → Authentication → Users 의 "사용자 UID" 를 아래 목록에 넣으세요.
+// supabase/setup.sql 의 목록과 항상 똑같이 맞춰야 합니다.
 service cloud.firestore {
   match /databases/{database}/documents {
 
     function isAdmin() {
-      return request.auth != null && request.auth.uid == 'ADMIN_UID';
+      return request.auth != null && request.auth.uid in [
+        '7ihPo3IJYggOt5SMZwxgeWyJ1Eo1',
+        'ADMIN_UID_2',
+        'ADMIN_UID_3',
+        'ADMIN_UID_4',
+        'ADMIN_UID_5'
+      ];
     }
 
     // 메인 이미지 / 배너

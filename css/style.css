@@ -24,6 +24,17 @@
 
 html, body { margin: 0; }
 
+/* 스크롤바 */
+html { scrollbar-color: #d9e5f7 transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: #d9e5f7 padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: #c3d4ee padding-box; }
+
 body {
     min-height: 100vh;
     font-family: var(--font);
@@ -648,6 +659,23 @@ button.ghost {
 .gb-form input { width: 50%; }
 .gb-form-foot { display: flex; justify-content: space-between; align-items: center; }
 .gb-count { font-size: 11px; color: var(--muted); }
+
+.gb-send {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    font-size: 24px;
+    filter: drop-shadow(0 1px 2px rgba(80, 110, 160, .35));
+    transition: transform .2s ease;
+}
+
+.gb-send:hover { transform: translate(2px, -2px); }
+.gb-send:disabled { opacity: .5; cursor: default; transform: none; }
 
 .gb-list {
     display: flex;

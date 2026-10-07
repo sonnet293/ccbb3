@@ -1,5 +1,5 @@
 -- Supabase 대시보드 → SQL Editor → New query 에 전체를 붙여넣고 Run 하세요.
--- 실행 전에 'ADMIN_UID' 를 Firebase 관리자 계정의 UID 로 바꿔주세요. (아래 함수 안 한 군데)
+-- 실행 전에 아래 함수 안의 관리자 UID 목록을 채워주세요. (firestore.rules 의 목록과 똑같이)
 -- 여러 번 실행해도 안전합니다.
 
 -- 1) 공개 버킷 생성: 누구나 파일을 "볼" 수 있음 (이미지/음악 재생용). 최대 50MB.
@@ -20,7 +20,13 @@ stable
 as $$
   select coalesce(auth.jwt() ->> 'iss', '') = 'https://securetoken.google.com/ccbb-6cde8'
      and coalesce(auth.jwt() ->> 'aud', '') = 'ccbb-6cde8'
-     and coalesce(auth.jwt() ->> 'sub', '') = '7ihPo3IJYggOt5SMZwxgeWyJ1Eo1';
+     and coalesce(auth.jwt() ->> 'sub', '') = any (array[
+           '7ihPo3IJYggOt5SMZwxgeWyJ1Eo1',
+           'ADMIN_UID_2',
+           'ADMIN_UID_3',
+           'ADMIN_UID_4',
+           'ADMIN_UID_5'
+         ]);
 $$;
 
 grant usage on schema private to anon, authenticated;
