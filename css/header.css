@@ -118,6 +118,25 @@
 .login-btn:hover { color: var(--sky-ink); border-color: var(--line); }
 body.is-admin .login-btn { color: var(--sky-ink); border-color: var(--line); }
 
+/* 로고 (좌측 상단, 홈 링크) */
+.site-logo {
+    position: absolute;
+    left: max(var(--gutter), calc((100% - var(--board-w)) / 2));
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+    line-height: 0;
+    transition: opacity .2s ease;
+}
+
+.site-logo img {
+    display: block;
+    width: auto;
+    height: 32px;
+}
+
+.site-logo:hover { opacity: .7; }
+
 /* 데스크톱에서는 래퍼가 레이아웃에 영향 없음 */
 .nav-panel { display: contents; }
 
@@ -161,7 +180,15 @@ body.is-admin .login-btn { color: var(--sky-ink); border-color: var(--line); }
         padding: 0 8px;
     }
 
-    .menu-toggle { display: block; }
+    .menu-toggle { display: block; margin-left: auto; }
+
+    .site-logo {
+        position: static;
+        transform: none;
+        margin-left: 8px;
+    }
+
+    .site-logo img { height: 26px; }
 
     .nav-panel {
         position: absolute;

@@ -56,3 +56,5 @@ bindFields(profile, (field, value) => saveField(currentId, field, value));
 bindImages(profile, () => currentId, () => data);
 addEventListener("hashchange", route);
 route();
+
+
