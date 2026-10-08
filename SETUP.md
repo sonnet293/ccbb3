@@ -71,7 +71,7 @@ Firebase 콘솔 **Authentication → Settings → 승인된 도메인** 에 배�
 | 메인 이미지 / 배너 | 보기, 배너 클릭 시 링크 이동 | 마우스를 올리면 `이미지 변경` / `링크` 버튼 |
 | 달력 | 날짜 클릭 → 일정 보기 | 날짜 팝업에서 일정 추가/삭제 |
 | 방명록 (말풍선 아이콘) | 이름+내용으로 글 남기기 | 답글 달기, 삭제 |
-| 캐릭터 (ORIGINAL) | 카드 클릭 → 세부 페이지(`character.html#1`~`#4`) | 이름·내용·프로필 칸을 클릭해 바로 수정(포커스가 빠지면 저장, Esc는 취소), 이미지 위에 마우스를 올리면 `이미지 변경`, 스토리·메모 탭에서 `+ 챕터 추가` · `+ 메모 추가` / × 삭제 |
+| 캐릭터 (ORIGINAL) | 카드 클릭 → 세부 페이지(`character.html#1`~`#4`) | 이름·내용·프로필 칸을 클릭해 바로 수정(포커스가 빠지면 저장, Esc는 취소), 이미지 위에 마우스를 올리면 `이미지 변경`, 스토리·메모 탭에서 `+ 챕터 추가` · `+ 메모 추가` / × 삭제, 엔트리 탭에서 카드 이름·스토리 수정 · `+ 타입`(검색, 최대 2개) |
 | 음악 플레이어 | 재생/이전/다음, 목록에서 선택 | 목록 버튼 → `+ 음악 추가` (업로드하면 바로 재생), 삭제 |
 
 로그인 버튼은 네비게이션바 오른쪽 끝의 작은 `로그인` 입니다.
@@ -89,7 +89,7 @@ Firebase 콘솔 **Authentication → Settings → 승인된 도메인** 에 배�
 
 - `site/config` : `{ main: {url, path}, banner1: {url, path, link}, banner2: {...} }`
 - `events/{id}` : `{ date: "YYYY-MM-DD", title, createdAt }`
-- `characters/{1~4}` : `{ name, summary, gender, height, personality, birthday, tmi, images: { card, main, portrait, polaroid1~3: {url, path} } }`
+- `characters/{1~4}` : `{ name, summary, gender, height, personality, birthday, tmi, images: { card, main, portrait, polaroid1~3: {url, path} }, entry: { 0~5: { name, types, story, images: { photo } } } }`
 - `characters/{id}/chapters/{id}` : `{ order, period, title, body }` (스토리 챕터, order 순)
 - `characters/{id}/memos/{id}` : `{ order, title, body }` (메모, order 순)
 - `tracks/{id}` : `{ title, url, path, createdAt }`

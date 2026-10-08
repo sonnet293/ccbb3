@@ -5,6 +5,7 @@ import "./sub.js";
 import { bindFields, bindImages, render, saveField, watchCharacter } from "./characters.js";
 import { showStory } from "./story.js";
 import { showMemo } from "./memo.js";
+import { showEntry } from "./entry.js";
 
 const IDS = ["1", "2", "3", "4"];
 const TABS = ["profile", "story", "memo", "entry"];
@@ -20,6 +21,7 @@ let unsubscribe = null;
 
 function update() {
   render(profile, data);
+  showEntry(currentId, data);
   document.title = `${data.name || "#" + currentId} · 시시비비`;
 }
 

@@ -30,16 +30,19 @@ export function watchCharacter(id, callback) {
   );
 }
 
-async function saveTo(ref, field, value) {
+async function saveTo(ref, patch) {
   try {
-    await setDoc(ref, { [field]: value }, { merge: true });
+    await setDoc(ref, patch, { merge: true });
     toast("저장되었습니다.");
   } catch (err) {
     toast("저장 실패: " + errorMessage(err), 4000);
   }
 }
 
-export const saveField = (id, field, value) => saveTo(charRef(id), field, value);
+export const saveField = (id, field, value) => saveTo(charRef(id), { [field]: value });
+
+// 중첩된 값 저장 (예: { entry: { 0: { name } } } → entry.0.name만 바뀜, 배열은 통째로 교체)
+export const savePatch = (id, patch) => saveTo(charRef(id), patch);
 
 // ----- 캐릭터별 목록 (스토리 chapters, 메모 memos …) -----
 const listCol = (id, col) => collection(db, "characters", id, col);
@@ -66,7 +69,7 @@ export async function addItem(id, col, data) {
 }
 
 export const saveItemField = (id, col, itemId, field, value) =>
-  saveTo(doc(listCol(id, col), itemId), field, value);
+  saveTo(doc(listCol(id, col), itemId), { [field]: value });
 
 export async function deleteItem(id, col, itemId) {
   try {
@@ -78,13 +81,14 @@ export async function deleteItem(id, col, itemId) {
 }
 
 // ----- 이미지 -----
-async function changeImage(id, key, oldPath) {
+// toPatch({ url, path }) → 캐릭터 문서에 합칠 내용 (엔트리 카드 등 images 밖에 저장할 때 사용)
+export async function replaceImage(id, toPatch, oldPath) {
   const [file] = await pickFiles("image/*");
   if (!file) return;
   try {
     toast("업로드 중…", 60000);
     const { url, path } = await uploadFile(file, "characters");
-    await setDoc(charRef(id), { images: { [key]: { url, path } } }, { merge: true });
+    await setDoc(charRef(id), toPatch({ url, path }), { merge: true });
     if (oldPath) removeFile(oldPath);
     toast("이미지가 변경되었습니다.");
   } catch (err) {
@@ -92,6 +96,8 @@ async function changeImage(id, key, oldPath) {
     toast("업로드 실패: " + errorMessage(err), 4000);
   }
 }
+
+const changeImage = (id, key, oldPath) => replaceImage(id, (image) => ({ images: { [key]: image } }), oldPath);
 
 // ----- 화면 연결 -----
 let isAdmin = false;
